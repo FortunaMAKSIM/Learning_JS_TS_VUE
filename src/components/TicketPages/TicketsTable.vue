@@ -29,10 +29,16 @@
         <div class="modal-content">
         <span class="close" @click="closeEditModal">&times;</span>
         <h2>Редактировать Билет</h2>
-        <input v-model="editTicketOwnerName" placeholder="Имя владельца" />
+        <select v-model="editTicketOwnerName">
+            <option disabledvalue="">Выберите владельца</option>
+            <option v-for="user in users" :key="user.id" :value="user.name">{{ user.name }}</option>
+        </select>
         <input v-model="editTicketOwnerEmail" placeholder="Почта владельца" />
         <input v-model="editTicketOwnerDate" placeholder="Дата регистрации владельца" />
-        <input v-model="editTicketFilmName" placeholder="Название фильма" />
+        <select v-model="editTicketFilmName">
+            <option disabledvalue="">Выберите фильм</option>
+            <option v-for="film in films" :key="film.id" :value="film.title">{{ film.title }}</option>
+        </select>
         <input v-model="editTicketFilmDate" placeholder="Дата сеанса" />
         <button @click="saveTicket ()">Сохранить</button>
         </div>
@@ -43,10 +49,16 @@
         <div class="modal-content">
         <span class="close" @click="closeAddModal">&times;</span>
         <h2>Добавить Билет</h2>
-        <input v-model="addTicketOwnerName" placeholder="Имя владельца" />
+        <select v-model="addTicketOwnerName">
+            <option disabledvalue="">Выберите владельца</option>
+            <option v-for="user in users" :key="user.id" :value="user.name">{{ user.name }}</option>
+        </select>
         <input v-model="addTicketOwnerEmail" placeholder="Почта владельца" />
         <input v-model="addTicketOwnerDate" placeholder="Дата регистрации владельца" />
-        <input v-model="addTicketFilmName" placeholder="Название фильма" />
+        <select v-model="addTicketFilmName">
+            <option disabledvalue="">Выберите фильм</option>
+            <option v-for="film in films" :key="film.id" :value="film.title">{{ film.title }}</option>
+        </select>
         <input v-model="addTicketFilmDate" placeholder="Дата сеанса" />
         <button @click="addTicket ()">Добавить</button>
         </div>
@@ -63,9 +75,10 @@ const tickets = ref<TicketType[]>([]);
 type TicketType = {
     id: number;
     user: {
+        id: number;
         name: string;
         email: string;
-        created: string | Date;
+        created: string;
     };
     film: {
         title: string;
@@ -108,6 +121,7 @@ const addTicket = () => {
         const newTicket : TicketType = {
             id: tickets.value.length,
             user: {
+                id: users.value.length,
                 name: selectedUser.name,
                 email: selectedUser.email,
                 created: selectedUser.created
@@ -118,6 +132,7 @@ const addTicket = () => {
             }
         };
         tickets.value.push(newTicket);
+        closeEditModal();
     } else {
         alert("Пожалуйста, заполните все поля.");
     }
@@ -130,18 +145,17 @@ const deleteTicket = (ticketId : number) => {
 const openEditModal = (ticket : TicketType) => {
     editTicketOwnerName.value = ticket.user.name;
     editTicketOwnerEmail.value = ticket.user.email;
+    editTicketOwnerDate.value = ticket.user.created;
     editTicketFilmName.value = ticket.film.title;
     editTicketFilmDate.value = ticket.film.session;
     currentTicketId.value = ticket.id;
     isEditModalOpen.value = true;
 };
 
-// Функция для закрытия модального окна редактирования
 const closeEditModal = () => {
     isEditModalOpen.value = false;
 };
 
-// Функция для сохранения изменений в билете
 const saveTicket = () => {
     if (currentTicketId.value !== null) {
         const ticketToUpdate = tickets.value.find(ticket => ticket.id === currentTicketId.value);

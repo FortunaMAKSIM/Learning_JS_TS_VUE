@@ -53,14 +53,8 @@ type UserType = {
   id: number;
   name: string;
   email: string;
-  created: string | Date;
+  created: string;
 };
-
-const currentDate = new Date();
-
-const createdMockDate = computed(() => {
-  return `${currentDate.getDate()}.${currentDate.getMonth() + 1}.${currentDate.getFullYear()}`;
-});
 
 const newUserName = ref('');
 const newUserEmail = ref('');
@@ -76,7 +70,7 @@ const addUser  = () => {
       id: users.value.length,
       name: newUserName.value,
       email: newUserEmail.value,
-      created: createdMockDate.value,
+      created: new Date().toLocaleDateString(),
     };
 
     users.value.push(newUser );

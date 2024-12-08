@@ -5,7 +5,7 @@ export type UserType = {
   id: number;
   name: string;
   email: string;
-  created: string | Date;
+  created: string;
 };
 
 export type FilmType = {
@@ -15,16 +15,16 @@ export type FilmType = {
 };
 
 const users = ref<UserType[]>([
-    { id: 1, name: 'Ann', email: 'alex@alex.alex', created: new Date().toLocaleDateString() },
-    { id: 2, name: 'Alex', email: 'ann@ann.ann', created: new Date().toLocaleDateString() },
-    { id: 3, name: 'Art', email: 'art@art.art', created: new Date().toLocaleDateString() },
-    { id: 4, name: 'You', email: 'you@you.you', created: new Date().toLocaleDateString() },
+    { id: 0, name: 'Ann', email: 'alex@alex.alex', created: new Date().toLocaleDateString() },
+    { id: 1, name: 'Alex', email: 'ann@ann.ann', created: new Date().toLocaleDateString() },
+    { id: 2, name: 'Art', email: 'art@art.art', created: new Date().toLocaleDateString() },
+    { id: 3, name: 'You', email: 'you@you.you', created: new Date().toLocaleDateString() },
   ]);
   
   const films = ref<FilmType[]>([
-    { id: 1, title: 'Оно', session: '10.10.2010' },
-    { id: 2, title: 'Зелёный слоник', session: '11.11.2011' },
-    { id: 3, title: 'Горбатая гора', session: '12.12.2012' },
+    { id: 0, title: 'Оно', session: new Date().toLocaleDateString() },
+    { id: 1, title: 'Зелёный слоник', session: new Date().toLocaleDateString() },
+    { id: 2, title: 'Горбатая гора', session: new Date().toLocaleDateString() },
   ]);
 
   export const useStore = () => ({
